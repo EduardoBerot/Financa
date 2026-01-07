@@ -24,8 +24,6 @@ import { globalStyles } from "../styles/global";
 
 export default function Index() {
 
-
-
   const [open, setOpen] = useState(false);
   const animation = useRef(new Animated.Value(0)).current;
 
@@ -74,10 +72,11 @@ export default function Index() {
         backgroundColor="transparent"
         style="light"
       />
-      <ScrollView style={globalStyles.container}>
-        <Header showIndexContent={true} showTabsContent={false} TabTittle='Inicio'/>
-        <View style={styles.content}>
-          <View style={[styles.contentbox, globalStyles.itemscenter]}>
+
+      <ScrollView style={[globalStyles.container]}>
+        <Header showIndexContent={true} showTabsContent={false} TabTittle='Inicio' />
+        <View style={globalStyles.indexcontent}>
+          <View style={[globalStyles.contentbox, globalStyles.itemscenter]}>
             <Text style={globalStyles.text}>Saldo total</Text>
             <Text style={globalStyles.title}>R$ 8.908,87</Text>
             <View style={globalStyles.row}>
@@ -86,13 +85,13 @@ export default function Index() {
             </View>
           </View>
         </View>
-        <View style={styles.content}>
-          <View style={styles.contentbox}>
+        <View style={globalStyles.indexcontent}>
+          <View style={globalStyles.contentbox}>
             <Text style={[globalStyles.text, { textAlign: "center", marginBottom: 18 }]}>Orçamento</Text>
             <ProgressItem
               icon="local-grocery-store"
               label="Supermercado"
-              spent={800}
+              spent={700}
               limit={1000}
             />
           </View>
@@ -125,31 +124,11 @@ export default function Index() {
         </Pressable>
       </Animated.View>
     </View>
-
   );
 }
 
 
 const styles = StyleSheet.create({
-  content: {
-    justifyContent: "center",
-    top: -30,
-    flexDirection: "row"
-  },
-
-
-  contentbox: {
-    width: "85%",
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    elevation: 10,
-    marginBottom: 20
-  },
 
   addbutton: {
     backgroundColor: "rgba(37, 97, 236, 1)",

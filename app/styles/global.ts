@@ -6,6 +6,30 @@ export const globalStyles = StyleSheet.create({
         backgroundColor: "#efefefff",
     },
 
+    indexcontent: {
+        justifyContent: "center",
+        top: -30,
+        flexDirection: "row"
+    },
+
+    content: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
+
+    contentbox: {
+        width: "85%",
+        backgroundColor: "#fff",
+        borderRadius: 20,
+        padding: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.15,
+        shadowRadius: 6,
+        elevation: 10,
+        marginBottom: 20
+    },
+
     row: {
         flexDirection: "row",
     },
