@@ -1,11 +1,11 @@
-import { Text, View, StyleSheet, Pressable } from "react-native";
-import { globalStyles } from "../styles/global";
-import Header from "../components/Header/Header";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Categories } from "../utils/Categories";
-import { CategoryRender } from "../components/CategoryRender";
 import { useState } from "react";
-import { CategoryAddModal } from "../components/CategoryAddModal";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { CategoryAddModal } from "../components/CategoryAddModal/CategoryAddModal";
+import { CategoryRender } from "../components/CategoryRender";
+import Header from "../components/Header/Header";
+import { globalStyles } from "../styles/global";
+import { Categories } from "../utils/Categories";
 
 
 export default function Form() {
