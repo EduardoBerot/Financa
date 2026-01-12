@@ -3,15 +3,16 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 type Props = {
     value?: string;
+    color: string;
     onPress: () => void;
 };
 
-export function IconSelectInput({ value, onPress }: Props) {
+export function IconSelectInput({ value, color, onPress }: Props) {
     return (
         <>
             <Pressable style={styles.input} onPress={onPress}>
                 {value ? (
-                    <MaterialIcons name={value as any} size={24} />
+                    <MaterialIcons name={value as any} color={color} size={24} />
                 ) : (
                     <Text style={styles.placeholder}>Selecione um ícone</Text>
                 )}

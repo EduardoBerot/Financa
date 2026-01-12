@@ -68,24 +68,21 @@ export function CategoryAddModal({ visible, onClose }: ModalProps) {
                 style={styles.input}
               />
             </View>
-
-            {/* Ícone */}
             <View style={styles.field}>
               <Text style={styles.label}>Ícone</Text>
 
               <IconSelectInput
                 value={icon}
+                color={color ?? "#9CA3AF"}
                 onPress={() => setIconModalOpen(true)}
               />
-
               <IconPickerModal
                 visible={iconModalOpen}
+                color={color ?? "#9CA3AF"}
                 onClose={() => setIconModalOpen(false)}
                 onSelect={setIcon}
               />
             </View>
-
-            {/* Cor */}
             <View style={styles.field}>
               <Text style={styles.label}>Cor</Text>
 
@@ -93,7 +90,6 @@ export function CategoryAddModal({ visible, onClose }: ModalProps) {
                 value={color}
                 onPress={() => setColorModalOpen(true)}
               />
-
               <ColorPickerModal
                 visible={colorModalOpen}
                 initialColor={color}
@@ -101,8 +97,6 @@ export function CategoryAddModal({ visible, onClose }: ModalProps) {
                 onSelect={setColor}
               />
             </View>
-
-            {/* CTA */}
             <Pressable style={styles.button}>
               <Text style={styles.buttonText}>Salvar categoria</Text>
             </Pressable>

@@ -4,17 +4,18 @@ import { Icons, IconName } from "@/app/utils/Icons";
 
 type Props = {
   visible: boolean;
+  color: string;
   onClose: () => void;
   onSelect: (icon: IconName) => void;
 };
 
-export function IconPickerModal({ visible, onClose, onSelect }: Props) {
+export function IconPickerModal({ visible, color, onClose, onSelect }: Props) {
   return (
     <Modal
       visible={visible}
       transparent
       animationType="fade"
-      onRequestClose={onClose} // Android back button
+      onRequestClose={onClose}
     >
       {/* Overlay clicável */}
       <Pressable style={styles.overlay} onPress={onClose}>
@@ -37,7 +38,7 @@ export function IconPickerModal({ visible, onClose, onSelect }: Props) {
                   onClose();
                 }}
               >
-                <MaterialIcons name={item} size={28} />
+                <MaterialIcons name={item} color={color} size={28} />
               </Pressable>
             )}
           />
