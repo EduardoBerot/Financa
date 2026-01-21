@@ -9,82 +9,50 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { IconSelectInput } from "./IconSelectInput";
 import { IconPickerModal } from "./IconPickerModal";
 import { ColorSelectInput } from "./ColorSelectInput";
 import { ColorPickerModal } from "./ColorPickerModal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IconName } from "@/app/utils/Icons";
 
-// Tipagem (falta ajustar)
-type Category = {
-  id: any;
-  name: any;
-  icon: any;
-  color: any;
-  limit: any;
-  spent: any;
+
+// Tipagem
+export type Category = {
+  id: number;
+  name: string;
+  icon: IconName;
+  color: string;
+  limit: string;
+  spent: string;
 };
 
 type ModalProps = {
   visible: boolean;
+  category: Category | null;
   onClose: () => void;
   onSaved: () => void;
 };
 
 
-export function CategoryAddModal({ visible, onClose, onSaved }: ModalProps) {
+export function CategoryAddModal({ visible, category, onClose, onSaved, }: ModalProps) {
 
   // Hooks
-  const [name, setName] = useState<string>();
-  const [budget, setBudget] = useState<string>();
-  const [icon, setIcon] = useState<IconName>();
+  const [name, setName] = useState("");
+  const [budget, setBudget] = useState("");
+  const [icon, setIcon] = useState<IconName | undefined>();
+  const [color, setColor] = useState("#9CA3AF");
+
   const [iconModalOpen, setIconModalOpen] = useState(false);
-  const [color, setColor] = useState<string>();
   const [colorModalOpen, setColorModalOpen] = useState(false);
+
   const translateY = useRef(new Animated.Value(300)).current;
 
+  const isEditing = !!category;
 
-  // Salvar categoria no Async Storage
-  const saveData = async (data: Category[]) => {
-    try {
-      await AsyncStorage.setItem('categories', JSON.stringify(data))
-    } catch {
-      console.log("Não foi possivel salvar a informação no banco de dados!")
-    }
-  }
+  /* ===== ANIMAÇÃO DE ABERTURA ===== */
 
-  // Adiciona categoria no asyncstorage
-  const addData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('categories');
-      const current: Category[] = value ? JSON.parse(value) : [];
-      const newCategory = {
-        id: Date.now(),
-        name,
-        icon,
-        color,
-        limit: budget,
-        spent: "",
-      };
-      const updated = [...current, newCategory];
-      await AsyncStorage.setItem('categories', JSON.stringify(updated));
-
-      // Reseta hooks
-      setIcon(undefined);
-      setColor("#9CA3AF");
-      setName('');
-      setBudget('');
-
-      //Força atualização
-      onSaved();
-
-    } catch (e) {
-      console.log("Erro ao salvar categoria", e);
-    }
-  };
-
-  // Abrir modal
   useEffect(() => {
     Animated.timing(translateY, {
       toValue: visible ? 0 : 300,
@@ -94,13 +62,97 @@ export function CategoryAddModal({ visible, onClose, onSaved }: ModalProps) {
   }, [visible]);
 
 
+  // Preencher campos ao editar
+  useEffect(() => {
+    if (category) {
+      setName(category.name);
+      setIcon(category.icon);
+      setColor(category.color);
+      setBudget(category.limit);
+    } else {
+      resetFields();
+    }
+  }, [category, visible]);
+
+  // Resetar camport
+  const resetFields = () => {
+    setName("");
+    setIcon(undefined);
+    setColor("#9CA3AF");
+    setBudget("");
+  };
+
+
+  // Salvar ou editar no Async Storage
+  const saveOrUpdateCategory = async () => {
+    try {
+      const value = await AsyncStorage.getItem("categories");
+      const current: Category[] = value ? JSON.parse(value) : [];
+
+      let updated: Category[];
+
+      if (category) {
+        updated = current.map(item => {
+          if (category.id === item.id) {
+            return {
+              ...item,
+              name,
+              icon: icon!,
+              color,
+              limit: budget,
+            };
+          }
+          return item;
+        });
+      } else {
+        const newCategory: Category = {
+          id: Date.now(),
+          name,
+          icon: icon!,
+          color,
+          limit: budget,
+          spent: "",
+        };
+        updated = [...current, newCategory];
+      }
+
+
+      await AsyncStorage.setItem("categories", JSON.stringify(updated));
+      resetFields();
+      onSaved();
+      onClose();
+
+    } catch (error) {
+      console.log("Erro ao salvar categoria:", error);
+    }
+  };
+
+  // Deletar categoria
+  const handleDeleteCategory = async () => {
+    if (!category) return;
+
+    try {
+      const value = await AsyncStorage.getItem("categories");
+      const current: Category[] = value ? JSON.parse(value) : [];
+
+      const updated = current.filter(item => item.id !== category.id);
+
+      await AsyncStorage.setItem("categories", JSON.stringify(updated));
+
+      resetFields();
+      onSaved();
+      onClose();
+
+    } catch (error) {
+      console.log("Erro ao excluir categoria:", error);
+    }
+  };
+
+
   return (
     <Modal transparent visible={visible} onRequestClose={onClose}>
-
       <Pressable style={styles.overlay} onPress={onClose}>
-
         <Pressable>
-
           <Animated.View
             style={[
               styles.modal,
@@ -109,12 +161,13 @@ export function CategoryAddModal({ visible, onClose, onSaved }: ModalProps) {
           >
 
             <View style={styles.header}>
-              <Text style={styles.title}>Adicionar categoria</Text>
+              <Text style={styles.title}>
+                {isEditing ? "Editar categoria" : "Adicionar categoria"}
+              </Text>
               <Pressable onPress={onClose} hitSlop={8}>
                 <MaterialIcons name="close" size={22} />
               </Pressable>
             </View>
-
 
             <View style={styles.field}>
               <Text style={styles.label}>Nome</Text>
@@ -126,22 +179,20 @@ export function CategoryAddModal({ visible, onClose, onSaved }: ModalProps) {
               />
             </View>
 
-
             <View style={styles.field}>
               <Text style={styles.label}>Ícone</Text>
               <IconSelectInput
                 value={icon}
-                color={color ?? "#9CA3AF"}
+                color={color}
                 onPress={() => setIconModalOpen(true)}
               />
               <IconPickerModal
                 visible={iconModalOpen}
-                color={color ?? "#9CA3AF"}
+                color={color}
                 onClose={() => setIconModalOpen(false)}
                 onSelect={setIcon}
               />
             </View>
-
 
             <View style={styles.field}>
               <Text style={styles.label}>Cor</Text>
@@ -167,19 +218,30 @@ export function CategoryAddModal({ visible, onClose, onSaved }: ModalProps) {
               />
             </View>
 
-            <Pressable style={styles.button} onPress={addData}>
+            <Pressable style={styles.button} onPress={saveOrUpdateCategory}>
               <Text style={styles.buttonText}>
-                Salvar categoria
+                {category ? "Salvar alterações" : "Salvar categoria"}
               </Text>
             </Pressable>
-            
+
+            {isEditing && (
+              <Pressable
+                style={[styles.button, { backgroundColor: "#EF4444" }]}
+                onPress={handleDeleteCategory}
+              >
+                <Text style={styles.buttonText}>
+                  Excluir categoria
+                </Text>
+              </Pressable>
+            )}
+
+
           </Animated.View>
         </Pressable>
       </Pressable>
     </Modal>
   );
 }
-
 
 const styles = StyleSheet.create({
   overlay: {
@@ -197,22 +259,22 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
 
-  /* Header */
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 20,
   },
+
   title: {
     fontSize: 16,
     fontWeight: "600",
   },
 
-  /* Fields */
   field: {
     marginBottom: 16,
   },
+
   label: {
     fontSize: 13,
     color: "#374151",
@@ -227,7 +289,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
 
-  /* Button */
   button: {
     height: 48,
     borderRadius: 12,
@@ -236,6 +297,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 8,
   },
+
   buttonText: {
     color: "#FFF",
     fontWeight: "600",

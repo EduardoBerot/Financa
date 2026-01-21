@@ -28,6 +28,7 @@ export function CategoryRender({ title, icon, color, onEdit }: CategoryRenderPro
     );
 }
 
+
 const styles = StyleSheet.create ({
     categoryitem: {
         flexDirection: "row",

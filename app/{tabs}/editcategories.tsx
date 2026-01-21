@@ -1,7 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
-import { useState} from "react";
+import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { CategoryAddModal } from "../components/CategoryAddModal/CategoryAddModal";
 import { CategoryRender } from "../components/CategoryRender";
@@ -12,7 +12,7 @@ import { globalStyles } from "../styles/global";
 
 export default function editcategories() {
 
-  // Tipagem (falta ajustar)
+
   type Category = {
     id: any;
     name: any;
@@ -26,8 +26,10 @@ export default function editcategories() {
   // Hooks
   const [modalVisible, setmodalVisible] = useState(false)
   const [categories, setCategories] = useState<Category[]>([]);
+  const [editCategory, setEditCategory] = useState<Category | null>(null);
 
- //Lê dados do Async Storage
+
+  //Lê dados do Async Storage
   const readData = async () => {
     try {
       const value = await AsyncStorage.getItem('categories');
@@ -77,9 +79,15 @@ export default function editcategories() {
               title={item.name}
               icon={item.icon}
               color={item.color}
-              onEdit={() => console.log("Editar", item.name)}
+              onEdit={() => {
+                setEditCategory(item),
+                  setmodalVisible(true)
+              }}
             />
           ))}
+
+
+
 
 
         </View>
@@ -88,11 +96,15 @@ export default function editcategories() {
 
       <CategoryAddModal
         visible={modalVisible}
-        onClose={() => setmodalVisible(false)}
+        onClose={() => {
+          setmodalVisible(false),
+            setEditCategory(null);
+        }}
         onSaved={() => {
-          readData(); 
+          readData();
           setmodalVisible(false);
         }}
+        category={editCategory}
       />
 
     </View>
