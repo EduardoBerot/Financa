@@ -10,11 +10,10 @@ import {
 import { TextInput } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import { IconSelectInput } from "./IconSelectInput";
-import { IconPickerModal } from "./IconPickerModal";
-import { ColorSelectInput } from "./ColorSelectInput";
-import { ColorPickerModal } from "./ColorPickerModal";
+import IconSelectInput from "./IconSelectInput";
+import IconPickerModal from "./IconPickerModal";
+import ColorSelectInput from "./ColorSelectInput";
+import ColorPickerModal from "./ColorPickerModal";
 import { IconName } from "@/app/utils/Icons";
 
 
@@ -36,7 +35,7 @@ type ModalProps = {
 };
 
 
-export function CategoryAddModal({ visible, category, onClose, onSaved, }: ModalProps) {
+const CategoryAddModal = ({ visible, category, onClose, onSaved, }: ModalProps) => {
 
   // Hooks
   const [name, setName] = useState("");
@@ -242,6 +241,8 @@ export function CategoryAddModal({ visible, category, onClose, onSaved, }: Modal
     </Modal>
   );
 }
+
+export default CategoryAddModal
 
 const styles = StyleSheet.create({
   overlay: {

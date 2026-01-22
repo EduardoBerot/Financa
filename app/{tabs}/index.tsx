@@ -22,7 +22,7 @@ type Category = {
 
 
 
-export default function Index() {
+const Index = () => {
 
   // Hooks
   const [open, setOpen] = useState(false);
@@ -111,16 +111,18 @@ export default function Index() {
         <View style={globalStyles.indexcontent}>
           <View style={globalStyles.contentbox}>
             <Text style={[globalStyles.text, { textAlign: "center", marginBottom: 18 }]}>Orçamento</Text>
-            {categories.map(item => (
-              <ProgressItem
-                key={item.id}
-                icon={item.icon}
-                color={item.color}
-                label={item.name}
-                limit={item.limit}
-                spent={item.spent}
-              />
-            ))}
+            {categories
+              .filter(item => Number(item.limit) > 0)
+              .map(item => (
+                <ProgressItem
+                  key={item.id}
+                  icon={item.icon}
+                  color={item.color}
+                  label={item.name}
+                  limit={item.limit}
+                  spent={item.spent}
+                />
+              ))}
           </View>
         </View>
 
@@ -158,6 +160,8 @@ export default function Index() {
   );
 }
 
+
+export default Index
 
 const styles = StyleSheet.create({
 

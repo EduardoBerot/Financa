@@ -8,7 +8,7 @@ type InfoBoxProps = {
     color?: string;
 };
 
-export default function InfoBox({ label, color, value }: InfoBoxProps) {
+const InfoBox = ({ label, color, value }: InfoBoxProps) => {
     return (
         <View style={[styles.contentboxinfo, globalStyles.itemscenter]}>
             <Text style={globalStyles.mintext}>{label}</Text>
@@ -17,8 +17,10 @@ export default function InfoBox({ label, color, value }: InfoBoxProps) {
     )
 }
 
+export default InfoBox
+
 const styles = StyleSheet.create({
   contentboxinfo: {
     flex: 1
   },
-})
+});

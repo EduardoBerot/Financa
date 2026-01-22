@@ -7,7 +7,7 @@ type Props = {
   onPress: () => void;
 };
 
-export function ColorSelectInput({ value, onPress }: Props) {
+const ColorSelectInput = ({ value, onPress }: Props) => {
   return (
 
     <Pressable style={styles.input} onPress={onPress}>
@@ -28,6 +28,8 @@ export function ColorSelectInput({ value, onPress }: Props) {
 
   );
 }
+
+export default ColorSelectInput
 
 const styles = StyleSheet.create({
   input: {

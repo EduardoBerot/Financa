@@ -10,7 +10,7 @@ type Props = {
   onSelect: (icon: IconName) => void;
 };
 
-export function IconPickerModal({ visible, color, onClose, onSelect }: Props) {
+const IconPickerModal = ({ visible, color, onClose, onSelect }: Props) => {
 
   return (
     <Modal
@@ -50,6 +50,8 @@ export function IconPickerModal({ visible, color, onClose, onSelect }: Props) {
     </Modal>
   );
 }
+
+export default IconPickerModal
 
 const styles = StyleSheet.create({
   overlay: {

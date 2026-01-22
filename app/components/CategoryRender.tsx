@@ -12,7 +12,7 @@ type CategoryRenderProps = {
 
 
 
-export function CategoryRender({ title, icon, color, onEdit }: CategoryRenderProps) {
+const CategoryRender = ({ title, icon, color, onEdit }: CategoryRenderProps) => {
     return (
         <View style={styles.categoryitem}>
             <MaterialIcons name={icon} size={22} color={color} />
@@ -28,6 +28,7 @@ export function CategoryRender({ title, icon, color, onEdit }: CategoryRenderPro
     );
 }
 
+export default CategoryRender
 
 const styles = StyleSheet.create ({
     categoryitem: {

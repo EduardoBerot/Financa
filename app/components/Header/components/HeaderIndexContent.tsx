@@ -3,7 +3,7 @@ import { Text } from "react-native";
 
 
 
-export default function HeaderIndexContent() {
+const HeaderIndexContent = () => {
 
 
     return (
@@ -16,3 +16,5 @@ export default function HeaderIndexContent() {
         </>
     )
 }
+
+export default HeaderIndexContent

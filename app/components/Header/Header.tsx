@@ -14,11 +14,11 @@ type HeaderProps = {
 };
 
 
-export default function Header({
+const Header = ({
     showIndexContent = true,
     showTabsContent = false,
     TabTittle
-}: HeaderProps) {
+}: HeaderProps) => {
 
     // Hooks
     const navigation = useNavigation();
@@ -49,6 +49,8 @@ export default function Header({
         </View>
     );
 }
+
+export default Header
 
 const styles = StyleSheet.create({
     header: {

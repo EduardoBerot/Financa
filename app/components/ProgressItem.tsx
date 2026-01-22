@@ -23,7 +23,7 @@ const getProgressColor = (progress: number) => {
 };
 
 
-export default function ProgressItem ({icon, label, spent, limit, color}: ProgressItemProps) {
+const ProgressItem = ({icon, label, spent, limit, color}: ProgressItemProps) => {
 
     const [categorieValue, setCategorieValue] = useState(0)
 
@@ -65,3 +65,5 @@ export default function ProgressItem ({icon, label, spent, limit, color}: Progre
         </View>
     )
 }
+
+export default ProgressItem

@@ -20,12 +20,12 @@ type Props = {
   onSelect: (color: string) => void;
 };
 
-export function ColorPickerModal({
+const ColorPickerModal = ({
   visible,
   initialColor = "#3B82F6",
   onClose,
   onSelect,
-}: Props) {
+}: Props) => {
 
   // Hooks
   const [color, setColor] = useState(initialColor);
@@ -117,6 +117,8 @@ export function ColorPickerModal({
     </Modal>
   );
 }
+
+export default ColorPickerModal
 
 const styles = StyleSheet.create({
   overlay: {
