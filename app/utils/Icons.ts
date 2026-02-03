@@ -13,3 +13,5 @@ export const Icons: IconName[] = [
   "favorite",
   "work",
 ];
+
+export default Icons

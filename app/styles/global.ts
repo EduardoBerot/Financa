@@ -62,3 +62,5 @@ export const globalStyles = StyleSheet.create({
         color: "#000"
     },
 })
+
+export default globalStyles
