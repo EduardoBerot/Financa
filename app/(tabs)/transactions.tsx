@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { View, Text, FlatList, Pressable, StyleSheet, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useLocalSearchParams } from "expo-router";
 
 import { Transaction } from "../components/TransactionModal/TransactionModal";
 import { formatCurrency } from "../utils/FormatCurrency";
@@ -11,7 +12,10 @@ import { useTransactionsContext } from "../context/TransactionContext";
 
 type FilterType = "receita" | "despesa" | "saldo";
 
-export default function TransactionsTab() {
+export default function transactions() {
+
+    const { filter } = useLocalSearchParams<{ filter?: FilterType }>();
+
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [activeTab, setActiveTab] = useState<FilterType>("saldo");
 
@@ -32,6 +36,14 @@ export default function TransactionsTab() {
     useEffect(() => {
         loadTransactions();
     }, [loadTransactions]);
+
+
+    useEffect(() => {
+        if (filter) {
+            setActiveTab(filter);
+        }
+    }, [filter]);
+
 
     const handleDelete = (id: string) => {
         Alert.alert(
@@ -67,9 +79,9 @@ export default function TransactionsTab() {
 
     return (
         <View style={globalStyles.container}>
-            <Header showIndexContent={false} showTabsContent={true} TabTitle="Editar Categorias" />
+            <Header showIndexContent={false} showTabsContent={true} TabTitle="Transações" />
             <View style={styles.tabsContainer}>
-                <Pressable onPress={() => setActiveTab("receita")}>
+                <Pressable onPress={() => setActiveTab("receita")} style={styles.tabsContainerButton}>
                     <MaterialIcons
                         name="trending-up"
                         size={28}
@@ -77,7 +89,7 @@ export default function TransactionsTab() {
                     />
                 </Pressable>
 
-                <Pressable onPress={() => setActiveTab("saldo")}>
+                <Pressable onPress={() => setActiveTab("saldo")} style={styles.tabsContainerButton}>
                     <MaterialIcons
                         name="account-balance-wallet"
                         size={28}
@@ -85,7 +97,7 @@ export default function TransactionsTab() {
                     />
                 </Pressable>
 
-                <Pressable onPress={() => setActiveTab("despesa")}>
+                <Pressable onPress={() => setActiveTab("despesa")} style={styles.tabsContainerButton}>
                     <MaterialIcons
                         name="trending-down"
                         size={28}
@@ -152,6 +164,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         marginVertical: 16,
+    },
+
+    tabsContainerButton: {
+        paddingHorizontal: 30
     },
 
     listContainer: {

@@ -184,14 +184,42 @@ const Index = () => {
 
         <View style={globalStyles.indexcontent}>
           <View style={[globalStyles.contentbox, globalStyles.itemscenter]}>
-            <Text style={globalStyles.text}>Saldo total</Text>
-            <Text style={globalStyles.title}>
-              {formatCurrency(totalIncomes - totalExpenses)}
-            </Text>
+
+            <Pressable
+              onPress={() => router.push("/(tabs)/transactions?filter=saldo")}
+            >
+              <Text style={globalStyles.title}>
+                {formatCurrency(totalIncomes - totalExpenses)}
+              </Text>
+            </Pressable>
+
+
             <View style={globalStyles.row}>
-              <InfoBox label="Receitas" value={formatCurrency(totalIncomes)} color="green" />
-              <InfoBox label="Despesas" value={formatCurrency(totalExpenses)} color="red" />
+
+              <Pressable
+                onPress={() => router.push("/(tabs)/transactions?filter=receita")}
+                style={{ flex: 1 }}
+              >
+                <InfoBox
+                  label="Receitas"
+                  value={formatCurrency(totalIncomes)}
+                  color="green"
+                />
+              </Pressable>
+
+              <Pressable
+                onPress={() => router.push("/(tabs)/transactions?filter=despesa")}
+                style={{ flex: 1 }}
+              >
+                <InfoBox
+                  label="Despesas"
+                  value={formatCurrency(totalExpenses)}
+                  color="red"
+                />
+              </Pressable>
+
             </View>
+
           </View>
         </View>
 

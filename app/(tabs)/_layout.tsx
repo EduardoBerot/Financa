@@ -42,7 +42,7 @@ export default function RootLayout() {
           />
 
           <Drawer.Screen
-            name="Transactions"
+            name="transactions"
             options={{
               title: "Transações",
               drawerIcon: ({ color, size }) => (
