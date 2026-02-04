@@ -32,11 +32,11 @@ export default function RootLayout() {
           />
 
           <Drawer.Screen
-            name="editcategories"
+            name="manage"
             options={{
-              title: "Editar Categorias",
+              title: "Configurações",
               drawerIcon: ({ color, size }) => (
-                <MaterialIcons name="edit" size={size} color={color} />
+                <MaterialIcons name="settings" size={size} color={color} />
               ),
             }}
           />

@@ -25,12 +25,16 @@ export default function transactions() {
         const stored = await AsyncStorage.getItem("transactions");
         const parsed: Transaction[] = stored ? JSON.parse(stored) : [];
 
+        const sorted = [...parsed].sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+
         if (activeTab === "saldo") {
-            setTransactions(parsed);
+            setTransactions(sorted);
             return;
         }
 
-        setTransactions(parsed.filter(t => t.type === activeTab));
+        setTransactions(sorted.filter(t => t.type === activeTab));
     }, [activeTab]);
 
     useEffect(() => {

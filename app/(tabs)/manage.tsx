@@ -13,7 +13,7 @@ import AccountRender from "../components/AccountRender";
 import AccountAddModal from "../components/AccountAddModal/AccountAddModal";
 
 
-const EditCategories = () => {
+const manage = () => {
 
   // Tipagem
 
@@ -195,7 +195,7 @@ const EditCategories = () => {
   );
 }
 
-export default EditCategories
+export default manage
 
 const styles = StyleSheet.create({
   addbutton: {
