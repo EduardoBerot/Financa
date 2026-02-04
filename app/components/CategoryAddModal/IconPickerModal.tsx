@@ -1,6 +1,7 @@
-import { Modal, Pressable, FlatList, StyleSheet } from "react-native";
+import { Modal, Pressable, FlatList, StyleSheet, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Icons, IconName } from "@/app/utils/Icons";
+import globalStyles from "@/app/styles/global";
 
 // Tipagem
 type Props = {
@@ -24,9 +25,13 @@ const IconPickerModal = ({ visible, color, onClose, onSelect }: Props) => {
 
         <Pressable style={styles.container} onPress={() => { }}>
 
-          <Pressable style={styles.closeButton} onPress={onClose}>
-            <MaterialIcons name="close" size={24} />
-          </Pressable>
+          <View style={[globalStyles.row, globalStyles.spacebetween, globalStyles.itemscenter]}>
+            <Text>Selecione um ícone</Text>
+            <Pressable onPress={onClose}>
+              <MaterialIcons name="close" size={24} />
+            </Pressable>
+          </View>
+
 
           <FlatList
             data={Icons}
@@ -68,18 +73,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     borderRadius: 12,
-    paddingTop: 32,
-    paddingHorizontal: 16,
-    paddingBottom: 16,
+    padding: 16,
     width: "80%",
     maxHeight: "60%", // 🔹 controla o tamanho do modal
-  },
-
-  closeButton: {
-    position: "absolute",
-    top: 8,
-    right: 8,
-    zIndex: 1,
   },
 
   list: {

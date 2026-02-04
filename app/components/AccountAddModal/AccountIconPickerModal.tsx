@@ -1,6 +1,7 @@
-import { Modal, Pressable, FlatList, StyleSheet, Image } from "react-native";
+import { Modal, Pressable, FlatList, StyleSheet, Image, View, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import BanksLogo, { BankKey } from "@/app/utils/BanksLogo";
+import globalStyles from "@/app/styles/global";
 
 type Props = {
   visible: boolean;
@@ -23,10 +24,15 @@ const AccountIconPickerModal = ({
       onRequestClose={onClose}
     >
       <Pressable style={styles.overlay} onPress={onClose}>
+
         <Pressable style={styles.container}>
-          <Pressable style={styles.closeButton} onPress={onClose}>
-            <MaterialIcons name="close" size={24} />
-          </Pressable>
+          
+          <View style={[globalStyles.row, globalStyles.spacebetween, globalStyles.itemscenter]}>
+            <Text>Selecione um ícone</Text>
+            <Pressable onPress={onClose}>
+              <MaterialIcons name="close" size={24} />
+            </Pressable>
+          </View>
 
           <FlatList
             data={banks}
@@ -69,9 +75,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     borderRadius: 12,
-    paddingTop: 32,
-    paddingHorizontal: 16,
-    paddingBottom: 16,
+    padding: 16,
     width: "80%",
     maxHeight: "60%",
   },
