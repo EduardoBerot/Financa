@@ -11,7 +11,10 @@ type AccountRenderProps = {
 };
 
 const AccountRender = ({ name, bank, onEdit }: AccountRenderProps) => {
+
+  // Render
   return (
+
     <View style={styles.accountItem}>
       <Image
         source={BanksLogo[bank]}

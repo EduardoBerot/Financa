@@ -49,7 +49,7 @@ const Index = () => {
       const storedCategories = await AsyncStorage.getItem('categories');
       const storedTransactions = await AsyncStorage.getItem('transactions');
 
-      // Realiza o parse
+      // Realiza os parse
       const categoriesFromStorage: Category[] = storedCategories
         ? JSON.parse(storedCategories)
         : [];
@@ -114,6 +114,7 @@ const Index = () => {
     }
   };
 
+  // Carregar dados pelo hook
   useFocusEffect(
     useCallback(() => {
       readData();
@@ -290,7 +291,6 @@ const Index = () => {
 };
 
 export default Index;
-
 
 const styles = StyleSheet.create({
   addbutton: {

@@ -2,7 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, ScrollView } from "react-native";
 import CategoryAddModal from "../components/CategoryAddModal/CategoryAddModal";
 import CategoryRender from "../components/CategoryRender";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,7 +16,6 @@ import AccountAddModal from "../components/AccountAddModal/AccountAddModal";
 const manage = () => {
 
   // Tipagem
-
   type Account = {
     id: number;
     name: string;
@@ -88,7 +87,7 @@ const manage = () => {
 
   // Render
   return (
-    <View
+    <ScrollView
       style={globalStyles.container}
     >
 
@@ -191,7 +190,7 @@ const manage = () => {
         category={editCategory}
       />
 
-    </View>
+    </ScrollView>
   );
 }
 

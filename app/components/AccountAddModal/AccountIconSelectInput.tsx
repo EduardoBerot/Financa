@@ -10,6 +10,8 @@ type Props = {
 };
 
 const AccountIconSelectInput = ({ value, onPress }: Props) => {
+
+  // Render
   return (
     <Pressable style={[styles.input, globalStyles.row, globalStyles.spacebetween, globalStyles.itemscenter]} onPress={onPress}>
       {value ? (

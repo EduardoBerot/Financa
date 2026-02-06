@@ -79,7 +79,9 @@ export const Icons: IconName[] = [
   "card-giftcard",
   "volunteer-activism",
   "more-horiz",
-];
+  "build",
+  "handyman",
+  ];
 
 
 export default Icons

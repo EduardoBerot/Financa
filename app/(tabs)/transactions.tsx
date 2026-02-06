@@ -3,7 +3,6 @@ import { View, Text, FlatList, Pressable, StyleSheet, Alert } from "react-native
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
-
 import { Transaction } from "../components/TransactionModal/TransactionModal";
 import { formatCurrency } from "../utils/FormatCurrency";
 import { globalStyles } from "../styles/global";
@@ -14,20 +13,24 @@ type FilterType = "receita" | "despesa" | "saldo";
 
 export default function transactions() {
 
+    // Hooks
     const { filter } = useLocalSearchParams<{ filter?: FilterType }>();
-
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [activeTab, setActiveTab] = useState<FilterType>("saldo");
-
     const { refresh } = useTransactionsContext();
 
+    // Função para carregar transações
     const loadTransactions = useCallback(async () => {
+
+        // Pega os dados do AsyncStorage e realiza o parse
         const stored = await AsyncStorage.getItem("transactions");
         const parsed: Transaction[] = stored ? JSON.parse(stored) : [];
 
+        // Ordena pela data mais recente
         const sorted = [...parsed].sort(
             (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         );
+
 
         if (activeTab === "saldo") {
             setTransactions(sorted);
@@ -49,6 +52,7 @@ export default function transactions() {
     }, [filter]);
 
 
+    // Remover transação
     const handleDelete = (id: string) => {
         Alert.alert(
             "Excluir transação",
@@ -67,13 +71,14 @@ export default function transactions() {
                         await AsyncStorage.setItem("transactions", JSON.stringify(updated));
 
                         loadTransactions();
-                        refresh(); // 🔥 avisa Index e qualquer outra tela
+                        refresh();
                     },
                 },
             ]
         );
     };
 
+    // Define formato de data
     const formatDate = (date: string) =>
         new Date(date).toLocaleDateString("pt-BR", {
             day: "2-digit",
@@ -84,6 +89,7 @@ export default function transactions() {
     return (
         <View style={globalStyles.container}>
             <Header showIndexContent={false} showTabsContent={true} TabTitle="Transações" />
+
             <View style={styles.tabsContainer}>
                 <Pressable onPress={() => setActiveTab("receita")} style={styles.tabsContainerButton}>
                     <MaterialIcons

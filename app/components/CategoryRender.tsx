@@ -10,9 +10,9 @@ type CategoryRenderProps = {
     onEdit?: () => void;
 };
 
-
-
 const CategoryRender = ({ title, icon, color, onEdit }: CategoryRenderProps) => {
+
+    // Render
     return (
         <View style={styles.categoryitem}>
             <MaterialIcons name={icon} size={22} color={color} />

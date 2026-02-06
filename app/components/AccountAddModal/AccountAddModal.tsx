@@ -1,19 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Animated,
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-  TextInput
-} from "react-native";
+import { Animated, Modal, Pressable, StyleSheet, Text, View, TextInput } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AccountIconPickerModal from "./AccountIconPickerModal";
 import AccountIconSelectInput from "./AccountIconSelectInput";
 import { BankKey } from "@/app/utils/BanksLogo";
 
+
+// Tipagem
 export type Account = {
   id: number;
   name: string;
@@ -27,17 +21,16 @@ type ModalProps = {
   onSaved: () => void;
 };
 
-const AccountAddModal = ({
-  visible,
-  account,
-  onClose,
-  onSaved,
-}: ModalProps) => {
+
+const AccountAddModal = ({ visible, account, onClose, onSaved }: ModalProps) => {
+
+  // Hooks
   const [name, setName] = useState("");
   const [bank, setBank] = useState<BankKey>();
   const [pickerOpen, setPickerOpen] = useState(false);
-
   const translateY = useRef(new Animated.Value(300)).current;
+
+
 
   const isEditing = !!account;
 
@@ -63,6 +56,8 @@ const AccountAddModal = ({
     setBank(undefined);
   };
 
+
+  // Salvar ou atualizar conta
   const saveOrUpdateAccount = async () => {
     try {
       const value = await AsyncStorage.getItem("accounts");
@@ -94,6 +89,8 @@ const AccountAddModal = ({
     }
   };
 
+
+  // Função para deletar conta
   const handleDeleteAccount = async () => {
     if (!account) return;
 
@@ -112,9 +109,12 @@ const AccountAddModal = ({
     }
   };
 
+
   return (
     <Modal transparent visible={visible} onRequestClose={onClose}>
+
       <Pressable style={styles.overlay} onPress={onClose}>
+
         <Pressable>
           <Animated.View
             style={[
@@ -168,7 +168,9 @@ const AccountAddModal = ({
             )}
           </Animated.View>
         </Pressable>
+
       </Pressable>
+      
     </Modal>
   );
 };

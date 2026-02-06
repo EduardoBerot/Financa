@@ -2,7 +2,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import { StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-
 import { TransactionsProvider } from "../context/TransactionContext";
 
 export default function RootLayout() {
@@ -55,8 +54,6 @@ export default function RootLayout() {
     </GestureHandlerRootView>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   drawer: {

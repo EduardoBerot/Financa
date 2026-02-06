@@ -3,19 +3,21 @@ import { MaterialIcons } from "@expo/vector-icons";
 import BanksLogo, { BankKey } from "@/app/utils/BanksLogo";
 import globalStyles from "@/app/styles/global";
 
+
+// Tipagem
 type Props = {
   visible: boolean;
   onClose: () => void;
   onSelect: (bank: BankKey) => void;
 };
 
+// Icone dos bancos
 const banks = Object.keys(BanksLogo) as BankKey[];
 
-const AccountIconPickerModal = ({
-  visible,
-  onClose,
-  onSelect,
-}: Props) => {
+
+const AccountIconPickerModal = ({ visible, onClose, onSelect }: Props) => {
+
+  // Render
   return (
     <Modal
       visible={visible}
