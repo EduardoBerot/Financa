@@ -9,11 +9,15 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
+import AccountSelectInput from "./AccountSelectInput";
+import AccountSelectModal from "./AccountSelectModal";
 import CategorySelectInput from "./CategorySelectInput";
 import CategorySelectModal from "./CategorySelectModal";
 import { Category } from "./CategorySelectModal";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import accounts from "@/app/(tabs)/accounts";
+import { Account } from "../AccountAddModal/AccountAddModal";
 
 // Tipagem
 type ModalProps = {
@@ -37,8 +41,10 @@ const TransactionModal = ({
   onSaved,
   type,
 }: ModalProps) => {
+  const [account, setAccount] = useState<Account | undefined>();
   const [category, setCategory] = useState<Category | undefined>();
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const [accountModalOpen, setAccountModalOpen] = useState(false);
   const translateY = useRef(new Animated.Value(300)).current;
   const [date, setDate] = useState<Date | null>(new Date());
   const [show, setShow] = useState(false);
@@ -89,7 +95,7 @@ const TransactionModal = ({
 
   const addTransaction = async () => {
     await saveData();
-    onSaved?.(); // 🔹 ALTERADO (chamada segura)
+    onSaved?.();
     onClose();
   };
 
@@ -111,6 +117,7 @@ const TransactionModal = ({
   useEffect(() => {
     if (!visible) {
       setDate(new Date());
+      setAccount(undefined);
       setCategory(undefined);
       setExpenseValue(0);
       setIncomeValue(0);
@@ -160,6 +167,27 @@ const TransactionModal = ({
                   onChange={handleChange}
                 />
               )}
+
+
+
+
+            </View>
+
+
+            <View style={styles.field}>
+              <Text style={styles.label}> Conta</Text>
+              <AccountSelectInput
+                Account={account}
+                onPress={() => setAccountModalOpen(true)}
+              />
+
+              <AccountSelectModal
+                visible={accountModalOpen}
+                onClose={() => {
+                  setAccountModalOpen(false);
+                }}
+                onSelect={setAccount}
+              />
             </View>
 
             {(type === "despesa" || type === "receita") && (
@@ -196,9 +224,17 @@ const TransactionModal = ({
                   type === "despesa"
                     ? setExpenseValue(value)
                     : type === "receita"
-                    ? setIncomeValue(value)
-                    : setTransferValue(value);
+                      ? setIncomeValue(value)
+                      : setTransferValue(value);
                 }}
+              />
+            </View>
+
+            <View style={styles.field}>
+              <Text style={styles.label}>Descrição</Text>
+              <TextInput
+                placeholder="Adicione uma mensagem (opcional"
+                style={styles.input}
               />
             </View>
 
